@@ -1,0 +1,68 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+{{ super() }}
+<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"> -->
+<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='colors.css') }}"> -->
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script> -->
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+<!-- <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script> -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-97627491-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-default" style="margin-bottom: 0px">
+  <div class="container">
+    <div class="navbar-header">
+
+      <button class="btn btn-default btn-navbar" data-toggle="collapse" data-target=".nav-collapse" style="float: right;">
+        <span class="glyphicon glyphicon-th">
+        Menu
+      </button>
+
+      <a class="navbar-brand" href="/" style="font-style: normal;">WhatIsMyFish.net : Beta</a>
+
+    <div class="nav-collapse collapse">
+        <ul class="nav">
+          <!-- <li class="active"><a href="#"></a></li> -->
+          <li><a href="/" style="color:grey;">Home</a></li>
+          <li><a href="/upload" style="color:grey;">ID Catch</a></li>
+          <li><a href="/regulations" style="color:grey;">Regulations</a></li>
+          <li><a href="/label" style="color:grey;">Expert ID</a></li>
+          <li><a href="/download_cache" style="color:grey;">Download Data</a></li>
+          <li><a href="/about" style="color:grey;">About Us</a></li>
+          <li><a href="/legal" style="color:grey;">Legal</a></li>
+       </ul>
+    </div><!--/.nav-collapse -->
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% block footer %}
+<hr>
+<footer class="footer" style="color:white">
+Fish.io.ai is a totally open source project under the <a href="https://github.com/matthew-sochor/fish.io.ai/blob/master/LICENSE">MIT license</a>
+<br> Want to contribute?  <a href="https://github.com/matthew-sochor/fish.io.ai">Join us on github!</a>
+<br> Have some feedback?  <a href="mailto:matthew.sochor@gmail.com?Subject=Hey%20,I%20got%20a%20fish%20question">Send us an email!</a>
+</footer>
+{% endblock footer %}
+{% endblock %}
