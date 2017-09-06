@@ -1,14 +1,24 @@
 sudo: required
 
 language: python
+  - 3.6
 
 services:
   - docker
 
 before_install:
-  - docker build -t thenomemac/fishapp:latest .
-  - docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/bash -c "echo 'build done'";
+  - docker build -t thenomemac/fishapp -f Dockerfile
+  - docker run -d -p 127.0.0.1:8000:8000 carlad/sinatra /bin/bash -c "echo 'build done'";
   - docker ps -a
 
 script:
   - echo 'hello testing world'
+
+# after_success:
+#   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+#   - export REPO=sebestblog/travis-demo
+#   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+#   - docker build -f Dockerfile -t $REPO:$COMMIT .
+#   - docker tag $REPO:$COMMIT $REPO:$TAG
+#   - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+#   - docker push $REPO
