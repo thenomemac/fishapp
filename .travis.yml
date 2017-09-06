@@ -1,0 +1,14 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+before_install:
+  - docker build -t thenomemac/fishapp:latest .
+  - docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/bash -c "echo 'build done'";
+  - docker ps -a
+
+script:
+  - echo 'hello testing world'
