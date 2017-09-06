@@ -13,12 +13,15 @@ env:
     - secure: "oL7pC0ohENG0e/BiIp/VoyMjsao3dFbE1ohQjuF2SN9pHTfTCtfvHzd7/njTArqYgvpwIeLRdAavMx+gzXWaJ2tF7nQUNIKcaTabdoVN3LjtZQDb34KR/+2KmR6GNWrBINR1Kv/353zQdZ8U6OfoXtKPtYovuZVKmzVOocOllUE1o1mChwXzcccwcMJayGLrTjvIbSiN1OkqOOxH641SdEjKwNGqOOueOLebMzb5VxMikXQNU9pEFGEjt0oCg3oqR64g16LTHHVk6d81PGI+6L6PNlFxoWUA5gHn8zTLGPnuuCN4eA/LtozuGs7MtPu2MQBw5k4g1T0KGeY47erQYkoyjbqfHZPZabyhz1a6DNoCDgEO4eRugXGGwiuD5Vx23kBq3sNEDyMM07IWEOO2+T+vU9p7bDqLflCmztN/E5EQTY+ASdhVrp1DFWvhdt8sHWc1b/jJh33FPTMPVUlxR6pbtqmkgzx6QdbM33SfZMxJzXJut2V7ZioZHnEPjL1J5JdZNK70iVhVEdG2iXhJ3Bd2gmLrocef0SjYsxYj2ujMjfEjNI/4nD1y/PvN8/FGrzHiZ6LuJ8hb1iTvLhmbdObz3TG0V0nmZzjHpzBhMZrIUC7TAbsFSF8Z1gGnt6kd/R4p/gaXlWG0DR7cQ/aQUgl6DlTEzMyRE+5JaMN51Yg=" # DOCKER_PASS
     - COMMIT=${TRAVIS_COMMIT::8}
     - REPO="thenomemac/fishapp"
+    - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+
 
 before_install:
   - docker --version
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - echo "$REPO:$COMMIT $REPO:$TAG"
   - docker tag $REPO:$COMMIT $REPO:$TAG
+  - echo "$REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER"
   - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
   - docker run -d -p 127.0.0.1:8000:8000 $REPO /bin/bash -c "echo 'build done'";
   - docker ps -a
@@ -28,10 +31,5 @@ script:
 
 after_success:
   - echo 'after so much success'
-#   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-#   - export REPO=sebestblog/travis-demo
-#   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-#   - docker build -f Dockerfile -t $REPO:$COMMIT .
-#   - docker tag $REPO:$COMMIT $REPO:$TAG
-#   - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
-#   - docker push $REPO
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - docker push $REPO
