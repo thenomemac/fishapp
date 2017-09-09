@@ -47,6 +47,7 @@ after_success:
   - kubectl apply -f kubernetes/fishapp-deployment.yaml
   - kubectl apply -f kubernetes/fishapp-service.yaml
   - kubectl describe deployment fishapp
+  - kubectl get pods -o wide
   - kubectl describe service fishapp
 
 
