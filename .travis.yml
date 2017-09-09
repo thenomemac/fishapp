@@ -14,6 +14,7 @@ env:
     - REPO="thenomemac/fishapp"
 
 before_install:
+  - openssl aes-256-cbc -K $encrypted_ac878f868f1c_key -iv $encrypted_ac878f868f1c_iv -in fishr-e76393bf4b15.secret.enc -out ./fishr-e76393bf4b15.secret -d
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker --version
   - docker pull $REPO:$TAG
@@ -22,7 +23,7 @@ before_install:
   - docker tag $REPO:$COMMIT $REPO:$TAG
   - echo "$REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER"
   - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
-  - docker run -d -p 127.0.0.1:8000:8000 $REPO /bin/bash -c "echo 'build done'";
+  - docker run -d -p 8000:8000 $REPO:$TAG /bin/bash -c "echo 'build done'";
   - docker ps -a
 
 script:
@@ -32,3 +33,16 @@ after_success:
   - echo 'after so much success'
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
+  - mkdir -p bin
+  - curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl > bin/kubectl
+  - chmod +x bin/kubectl
+  - export PATH="$(pwd)/bin:$PATH"
+  - export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+  - echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+  - curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  - apt-get update && apt-get install -y google-cloud-sdk kubectl
+  - gcloud auth activate-service-account --key-file="fishr-e76393bf4b15.secret"
+  - gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project arboreal-retina-175212
+  - kubectl get pods --all-namespaces -o wide
+
+

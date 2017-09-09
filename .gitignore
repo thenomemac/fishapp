@@ -161,3 +161,6 @@ logs/*
 
 # notebooks
 *.ipynb
+
+# secrets
+*.secret
