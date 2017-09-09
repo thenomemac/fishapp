@@ -44,5 +44,9 @@ after_success:
   - gcloud auth activate-service-account --key-file="fishr-e76393bf4b15.secret"
   - gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project arboreal-retina-175212
   - kubectl get pods --all-namespaces -o wide
+  - kubectl apply -f kubernetes/fishapp-deployment.yaml
+  - kubectl apply -f kubernetes/fishapp-service.yaml
+  - kubectl describe deployment fishapp
+  - kubectl describe service fishapp
 
 
