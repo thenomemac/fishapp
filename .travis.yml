@@ -45,7 +45,6 @@ after_success:
   - gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project arboreal-retina-175212
   - kubectl get pods --all-namespaces -o wide
   - sed "s/\:latest/\:$COMMIT/g" kubernetes/fishapp-deployment.yaml | kubectl apply -f -
-  - kubectl set image deployment/fishapp fishapp=thenomemac/fishapp:$COMMIT
   - kubectl apply -f kubernetes/fishapp-service.yaml
   - kubectl describe deployment fishapp
   - kubectl get pods -o wide
