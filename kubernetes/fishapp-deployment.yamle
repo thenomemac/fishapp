@@ -1,0 +1,16 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fishapp
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: fishapp
+    spec:
+      containers:
+      - name: fishapp
+        image: thenomemac/fishapp
+        ports:
+        - containerPort: 8000
