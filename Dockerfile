@@ -32,7 +32,9 @@ RUN pip install gunicorn flask flask_bootstrap
 # COPY logging.conf /logging.conf
 # COPY gunicorn.conf /gunicorn.conf     
 
-COPY fishapp fishapp
+COPY ./ fishapp
+
+WORKDIR fishapp
 
 EXPOSE 8000
 

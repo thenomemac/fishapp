@@ -28,6 +28,7 @@ before_install:
 
 script:
   - echo 'hello testing world'
+  - docker run $REPO:$TAG python test_fishapp.py
 
 after_success:
   - echo 'after so much success'
@@ -49,5 +50,3 @@ after_success:
   - kubectl describe deployment fishapp
   - kubectl get pods -o wide
   - kubectl describe service fishapp
-
-
