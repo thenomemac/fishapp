@@ -45,6 +45,15 @@ after_success:
   - gcloud auth activate-service-account --key-file="fishr-e76393bf4b15.secret"
   - gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project arboreal-retina-175212
   - kubectl get pods --all-namespaces -o wide
+  - sed "s/\:latest/\:$COMMIT/g" kubernetes/fishapp-deployment.yaml | kubectl --namespace=dev apply -f -
+  - sleep 10
+  - kubectl get pods --namespace=dev
+  - devpodname=$(kubectl get pods --namespace=dev | tail -n1 | sed -e 's/\s.*$//')
+  - echo "$devpodname"
+  - kubectl proxy &
+  - intvar=$(curl -s "http://127.0.0.1:8001/api/v1/namespaces/dev/pods/$devpodname/proxy/" | grep 'WhatIsMyFish.net')
+  - echo "$intvar"
+  - if [ "$intvar" = "" ]; then echo 'failure' && exit 1; else echo 'success'; fi
   - sed "s/\:latest/\:$COMMIT/g" kubernetes/fishapp-deployment.yaml | kubectl apply -f -
   - kubectl apply -f kubernetes/fishapp-service.yaml
   - kubectl describe deployment fishapp
