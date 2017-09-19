@@ -18,7 +18,7 @@ class FishappTestCase(unittest.TestCase):
         rv = self.app.get('/')
         log.info(rv)
         html_str = rv.data.decode('utf-8').lower()
-        # assert False, 'demo fail'
+        assert False, 'demo fail'
         assert 'whatismyfish.net' in html_str, 'Bad data'
 
 
