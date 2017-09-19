@@ -46,7 +46,7 @@ after_success:
   - gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project arboreal-retina-175212
   - kubectl get pods --all-namespaces -o wide
   - sed "s/\:latest/\:$COMMIT/g" kubernetes/fishapp-deployment.yaml | kubectl --namespace=dev apply -f -
-  - sleep 10
+  - sleep 60
   - kubectl get pods --namespace=dev
   - devpodname=$(kubectl get pods --namespace=dev | tail -n1 | sed -e 's/\s.*$//')
   - echo "$devpodname"
