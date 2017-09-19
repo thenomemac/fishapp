@@ -48,12 +48,12 @@ after_success:
   - sed "s/\:latest/\:$COMMIT/g" kubernetes/fishapp-deployment.yaml | kubectl --namespace=dev apply -f -
   - sleep 60
   - kubectl get pods --namespace=dev
-  - devpodname=$(kubectl get pods --namespace=dev | tail -n1 | sed -e 's/\s.*$//')
+  - devpodname=$(kubectl get pods --namespace=dev | grep 'Running' | tail -n1 | sed -e 's/\s.*$//')
   - echo "$devpodname"
   - kubectl proxy &
   - intvar=$(curl -s "http://127.0.0.1:8001/api/v1/namespaces/dev/pods/$devpodname/proxy/" | grep 'WhatIsMyFish.net')
   - echo "$intvar"
-  - if [ "$intvar" = "" ]; then echo 'failure' && exit 1; else echo 'success'; fi
+  - if [[ "$intvar" = "" ]]; then echo 'failure'; else echo 'success'; fi
   - sed "s/\:latest/\:$COMMIT/g" kubernetes/fishapp-deployment.yaml | kubectl apply -f -
   - kubectl apply -f kubernetes/fishapp-service.yaml
   - kubectl describe deployment fishapp
