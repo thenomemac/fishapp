@@ -1,4 +1,7 @@
 # What Is My Fish?
+
+[![Build Status](https://travis-ci.org/thenomemac/fishapp.svg?branch=apistar)](https://travis-ci.org/thenomemac/fishapp)
+
 For decades, our Lake Erie’s ecosystems have been thrown out of balance as invasive fish outcompete native fish for food, eat native fish eggs, and uproot plants utilized by other animals for food or shelter.  Despite the Department of Natural Resources’ (DNR) efforts, lakes threaten to be overfished by those oblivious or non-compliant with size and count limits.  
 
 Our great lakes- a vital component of our communities’ long term economic survival- are threatened.
